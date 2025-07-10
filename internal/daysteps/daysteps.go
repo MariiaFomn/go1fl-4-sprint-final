@@ -1,6 +1,7 @@
 package daysteps
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"strconv"
@@ -29,21 +30,21 @@ func parsePackage(data string) (int, time.Duration, error) {
 	stepsStr, err := strconv.Atoi(parts[0])
 
 	if err != nil {
-		return 0, 0, fmt.Errorf("error converting string to integer, %v", err)
+		return 0, 0, fmt.Errorf("error converting string to integer, %w", err)
 	}
 
 	if stepsStr <= 0 {
-		return 0, 0, fmt.Errorf("steps must be a positive integer")
+		return 0, 0, errors.New("steps must be a positive integer")
 	}
 
 	durationStr, err := time.ParseDuration(parts[1])
 
 	if err != nil {
-		return 0, 0, fmt.Errorf("invalid duration format: %v", err)
+		return 0, 0, fmt.Errorf("invalid duration format: %w", err)
 	}
 
 	if durationStr <= 0 {
-		return 0, 0, fmt.Errorf("durationStr must be a positive integer")
+		return 0, 0, errors.New("durationStr must be a positive integer")
 	}
 
 	return stepsStr, durationStr, nil

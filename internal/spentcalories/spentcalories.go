@@ -1,6 +1,7 @@
 package spentcalories
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"strconv"
@@ -88,10 +89,6 @@ func TrainingInfo(data string, weight, height float64) (string, error) {
 	var result string
 	var distanceVal, speed, spentCalories float64
 
-	if activity != "Бег" && activity != "Ходьба" {
-		return "", fmt.Errorf("неизвестный тип тренировки")
-	}
-
 	switch activity {
 	case "Бег":
 		distanceVal = distance(steps, height)
@@ -110,7 +107,7 @@ func TrainingInfo(data string, weight, height float64) (string, error) {
 		}
 
 	default:
-		fmt.Println("Неизвестный тип тренировки.")
+		return "", errors.New("неизвестный тип тренировки")
 	}
 
 	result = fmt.Sprintf("Тип тренировки: %s\nДлительность: %.2f ч.\nДистанция: %.2f км.\nСкорость: %.2f км/ч\nСожгли калорий: %.2f\n", activity, duration.Hours(), distanceVal, speed, spentCalories)
